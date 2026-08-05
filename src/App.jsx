@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { events as baseEvents } from "./data/events";
 import { profile } from "./data/profile";

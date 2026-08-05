@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { RefreshCw, CalendarDays, Activity, CloudSun, Watch } from "lucide-react";
 

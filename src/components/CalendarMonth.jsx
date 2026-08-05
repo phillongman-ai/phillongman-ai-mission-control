@@ -1,3 +1,4 @@
+import React from "react";
 export function CalendarMonth({ events }) {
   const start = new Date("2026-07-27T12:00:00+01:00");
   const days = Array.from({ length: 42 }, (_, index) => {

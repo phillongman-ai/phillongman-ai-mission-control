@@ -1,3 +1,21 @@
+# Mission Control 2.0 — React Fix
+
+This release fixes the blank screen by:
+
+- Adding the official Vite React plugin configuration
+- Making React explicitly available in JSX modules
+- Temporarily removing the manifest link that generated private-site 401 warnings
+
+## Replace the current GitHub files
+
+Upload all contents of this package into the existing repository and allow GitHub to replace matching files.
+
+The most important new file is:
+
+- `vite.config.js`
+
+Netlify will redeploy automatically.
+
 # Mission Control 2.0
 
 React/Vite rebuild of Phil's Mission Control.

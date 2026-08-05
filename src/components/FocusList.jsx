@@ -1,3 +1,4 @@
+import React from "react";
 import { daysBetween, parseDate, nearEvents, appToday } from "../lib/eventEngine";
 import { RagBadge } from "./RagBadge";
 
