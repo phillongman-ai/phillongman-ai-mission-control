@@ -9,10 +9,23 @@ import { CalendarMonth } from "./components/CalendarMonth";
 import { SyncCentre } from "./components/SyncCentre";
 import { LifeAdmin } from "./components/LifeAdmin";
 import { RagBadge } from "./components/RagBadge";
+import {
+  Home, BriefcaseBusiness, Plane, Users, Dumbbell, WalletCards,
+  Trophy, Clapperboard, ClipboardCheck, House, CalendarDays
+} from "lucide-react";
 
 const navItems = [
-  ["home","🏠","Home"],["work","💼","Work"],["travel","✈️","Travel"],["family","👨‍👩‍👧‍👦","Family"],
-  ["fitness","🎾","Fitness"],["money","💷","Money"],["football","⚽","Football"],["entertainment","🎬","Entertainment"],["admin","🧾","Life Admin"],["life","🏡","Life & Home"]
+  { id:"home", emoji:"🏠", label:"Home", Icon:Home },
+  { id:"calendar", emoji:"🗓️", label:"Calendar", Icon:CalendarDays },
+  { id:"work", emoji:"💼", label:"Work", Icon:BriefcaseBusiness },
+  { id:"travel", emoji:"✈️", label:"Travel", Icon:Plane },
+  { id:"family", emoji:"👨‍👩‍👧‍👦", label:"Family", Icon:Users },
+  { id:"fitness", emoji:"🎾", label:"Fitness", Icon:Dumbbell },
+  { id:"money", emoji:"💷", label:"Money", Icon:WalletCards },
+  { id:"football", emoji:"⚽", label:"Football", Icon:Trophy },
+  { id:"entertainment", emoji:"🎬", label:"Entertainment", Icon:Clapperboard },
+  { id:"admin", emoji:"🧾", label:"Life Admin", Icon:ClipboardCheck },
+  { id:"life", emoji:"🏡", label:"Life & Home", Icon:House }
 ];
 
 export default function App() {
@@ -63,9 +76,13 @@ export default function App() {
         <div className="brand">Mission <span>Control</span></div>
         <div className="tag">Phil’s Personal OS</div>
         <nav>
-          {navItems.map(([id, icon, label]) => (
+          {navItems.map(({ id, emoji, label, Icon }) => (
             <button key={id} className={view === id ? "active" : ""} onClick={() => setView(id)}>
-              <span className="nav-icon">{icon}</span>{label}
+              <span className="nav-symbol" aria-hidden="true">
+                <Icon size={19} strokeWidth={2.2} />
+                <span className="nav-emoji">{emoji}</span>
+              </span>
+              <span>{label}</span>
             </button>
           ))}
         </nav>
@@ -76,7 +93,7 @@ export default function App() {
 
       <main>
         <header className="top">
-          <div><h1>{view === "home" ? "Mission Control" : navItems.find(([id]) => id === view)?.[2]}</h1><div className="sub">Your personal operating system</div></div>
+          <div><h1>{view === "home" ? "Mission Control" : navItems.find((item) => item.id === view)?.label}</h1><div className="sub">Your personal operating system</div></div>
           <div className="datebox">
             <div>{now.toLocaleDateString("en-GB", { weekday:"long", day:"numeric", month:"long", year:"numeric" })}</div>
             <strong>{now.toLocaleTimeString("en-GB", { hour:"2-digit", minute:"2-digit" })}</strong>
@@ -122,11 +139,34 @@ export default function App() {
             </div>
 
             <LifeAdmin compact />
+            <section className="calendar-divider">
+              <span>🗓️</span>
+              <div><strong>Your calendar</strong><div className="small">Personal dates, Google Calendar and renewals</div></div>
+              <button className="secondary-btn" type="button" onClick={()=>setView("calendar")}>Open calendar</button>
+            </section>
             <CalendarMonth events={events} />
             <SyncCentre onGoogleEvents={setGoogleEvents} />
           </div>
         )}
 
+        {view === "calendar" && (
+          <div className="stack">
+            <HubHeader icon="🗓️" title="Calendar" subtitle="Your personal, Google and Life Admin events in one place." score={94} />
+            <CalendarMonth events={events} />
+            <section className="card">
+              <div className="section-head">
+                <h2>📅 Upcoming events</h2>
+                <RagBadge tone="blue">{events.length} tracked</RagBadge>
+              </div>
+              <div className="rich-list">
+                {[...events]
+                  .sort((a,b)=>new Date(a.date)-new Date(b.date))
+                  .slice(0,12)
+                  .map((event)=><div key={event.id}>{event.emoji || "📌"} <strong>{event.title}</strong> · {new Date(event.date+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}{event.time ? ` · ${event.time}` : ""}</div>)}
+              </div>
+            </section>
+          </div>
+        )}
         {view === "work" && <WorkHub />}
         {view === "travel" && <TravelHub />}
         {view === "family" && <FamilyHub />}

@@ -46,3 +46,15 @@ nav button{border-radius:16px}
 .primary-btn,.secondary-btn{border-radius:14px}
 @media(max-width:900px){.grid.three{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){.grid.three{grid-template-columns:1fr}.hub-header{align-items:flex-start}.hub-score>span{font-size:30px}}
+
+/* Visual restoration: reliable SVG icons plus emoji personality */
+nav button{display:flex;align-items:center;gap:11px}
+.nav-symbol{display:inline-flex;align-items:center;gap:7px;width:49px;color:#9fb9ff}
+.nav-emoji{font-size:16px;line-height:1}
+nav button.active .nav-symbol,nav button:hover .nav-symbol{color:#fff}
+.calendar-divider{display:flex;align-items:center;gap:13px;padding:15px 18px;border:1px solid var(--line);border-radius:20px;background:rgba(95,141,255,.08)}
+.calendar-divider>span{font-size:28px}.calendar-divider>div{flex:1}
+.status-card .status-emoji,.profile-icon,.renewal-icon,.icon-orb{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+.calendar-grid{margin-top:8px}
+.event-chip{font-family:Inter,system-ui,"Segoe UI Emoji","Noto Color Emoji",sans-serif}
+@media(max-width:650px){.calendar-divider{align-items:flex-start;flex-wrap:wrap}.calendar-divider .secondary-btn{width:100%;justify-content:center}}
