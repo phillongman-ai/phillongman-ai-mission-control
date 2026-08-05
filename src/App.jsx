@@ -7,18 +7,45 @@ import { MissionIndex } from "./components/MissionIndex";
 import { FocusList } from "./components/FocusList";
 import { CalendarMonth } from "./components/CalendarMonth";
 import { SyncCentre } from "./components/SyncCentre";
+import { LifeAdmin } from "./components/LifeAdmin";
 import { RagBadge } from "./components/RagBadge";
 
 const navItems = [
   ["home","🏠","Home"],["work","💼","Work"],["travel","✈️","Travel"],["family","👨‍👩‍👧‍👦","Family"],
-  ["fitness","🎾","Fitness"],["money","💷","Money"],["football","⚽","Football"],["entertainment","🎬","Entertainment"],["life","🏡","Life & Home"]
+  ["fitness","🎾","Fitness"],["money","💷","Money"],["football","⚽","Football"],["entertainment","🎬","Entertainment"],["admin","🧾","Life Admin"],["life","🏡","Life & Home"]
 ];
 
 export default function App() {
   const [view, setView] = useState("home");
   const [privateMode, setPrivateMode] = useState(true);
   const [now, setNow] = useState(new Date());
-  const events = baseEvents;
+  const [googleEvents, setGoogleEvents] = useState([]);
+
+  const normalizeGoogleEvents = (items) => items
+    .filter((item) => item?.start)
+    .map((item) => {
+      const start = new Date(item.start);
+      const isTimed = String(item.start).includes("T");
+      return {
+        id: `google-${item.id}`,
+        title: item.summary || "Google Calendar event",
+        date: start.toISOString().slice(0, 10),
+        time: isTimed
+          ? start.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })
+          : "",
+        category: "Calendar",
+        priority: "medium",
+        emoji: "📅",
+        status: "synced",
+        source: "google",
+        location: item.location || ""
+      };
+    });
+
+  const events = useMemo(() => {
+    const merged = [...baseEvents, ...normalizeGoogleEvents(googleEvents)];
+    return [...new Map(merged.map((event) => [event.id, event])).values()];
+  }, [googleEvents]);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 30000);
@@ -94,8 +121,9 @@ export default function App() {
               })}
             </div>
 
+            <LifeAdmin compact />
             <CalendarMonth events={events} />
-            <SyncCentre />
+            <SyncCentre onGoogleEvents={setGoogleEvents} />
           </div>
         )}
 
@@ -106,6 +134,7 @@ export default function App() {
         {view === "money" && <MoneyPage />}
         {view === "football" && <SimpleGrid items={[["⚽ Spurs","Transfer intelligence","Credible moves and squad planning."],["📊 Fantasy Football","Data-led team","Competitive from Gameweek 1."]]} />}
         {view === "entertainment" && <SimpleGrid items={[["🎬 Watch next","Mr Inbetween","Strong match for your taste."],["⭐ Taste profile","Gritty, grounded drama","Plus authentic reality TV."]]} />}
+        {view === "admin" && <LifeAdmin />}
         {view === "life" && <NotesPage />}
       </main>
     </div>

@@ -88,5 +88,35 @@ export const events = [
     "priority": "medium",
     "emoji": "\u2708\ufe0f",
     "status": "upcoming"
+  },
+  {
+    "id": "q3-insurance-renewal",
+    "title": "Q3 insurance ends",
+    "date": "2026-08-24",
+    "time": "",
+    "category": "Life Admin",
+    "priority": "high",
+    "emoji": "\ud83d\ude97",
+    "status": "upcoming"
+  },
+  {
+    "id": "travel-insurance-renewal",
+    "title": "Travel insurance expires",
+    "date": "2026-10-04",
+    "time": "",
+    "category": "Life Admin",
+    "priority": "medium",
+    "emoji": "\u2708\ufe0f",
+    "status": "upcoming"
+  },
+  {
+    "id": "home-insurance-renewal",
+    "title": "Home insurance ends",
+    "date": "2026-11-07",
+    "time": "",
+    "category": "Life Admin",
+    "priority": "medium",
+    "emoji": "\ud83c\udfe0",
+    "status": "upcoming"
   }
 ];

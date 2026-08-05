@@ -28,3 +28,7 @@ h1,h2{margin-top:0}.sub,.small{color:var(--muted)}.small{font-size:13px;line-hei
 .privacy-on .sensitive{filter:blur(9px);user-select:none}
 @media(max-width:950px){.app{grid-template-columns:1fr}aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}nav{grid-template-columns:repeat(4,1fr)}.four,.two,.sync-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){nav{grid-template-columns:repeat(2,1fr)}.four,.two,.sync-grid,.index-card{grid-template-columns:1fr}.top{flex-direction:column}.datebox{text-align:left}}
+
+.renewal-list{display:grid}.renewal-row{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}.renewal-row:last-child{border-bottom:0}.renewal-main{display:flex;align-items:center;gap:12px}.renewal-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:rgba(95,141,255,.12);border:1px solid var(--line)}.renewal-meta{text-align:right;display:grid;justify-items:end;gap:4px}.renewal-days{font-size:19px;font-weight:800}
+
+.service-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
