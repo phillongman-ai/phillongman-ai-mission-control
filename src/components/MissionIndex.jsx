@@ -8,7 +8,7 @@ export function MissionIndex({ events }) {
   return (
     <section className="card index-card">
       <div className="index-left">
-        <div className="eyebrow">🎛️ Mission Control Index</div>
+        <div className="eyebrow">🟢 Readiness Score</div>
         <div className="index-score">{score}%</div>
         <RagBadge tone={score >= 90 ? "green" : "amber"}>{score >= 90 ? "Excellent" : "Good"}</RagBadge>
       </div>

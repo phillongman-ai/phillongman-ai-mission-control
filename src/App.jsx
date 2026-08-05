@@ -127,18 +127,139 @@ export default function App() {
           </div>
         )}
 
-        {view === "work" && <SimpleGrid items={[["🤖 Primary AI","Microsoft Copilot","Meetings, documents, email and internal work content."],["🏙️ Office routine","Wednesday","GLH, London."]]} />}
-        {view === "travel" && <SimpleGrid items={[["✈️ Next trip","La Marina, Spain","5–11 September 2026."],["🗺️ Standout ideas","Tabarca · Calpe · El Pinet","Scenery and beach days."]]} />}
-        {view === "family" && <FamilyPage />}
-        {view === "fitness" && <FitnessPage events={events} />}
-        {view === "money" && <MoneyPage />}
-        {view === "football" && <SimpleGrid items={[["⚽ Spurs","Transfer intelligence","Credible moves and squad planning."],["📊 Fantasy Football","Data-led team","Competitive from Gameweek 1."]]} />}
-        {view === "entertainment" && <SimpleGrid items={[["🎬 Watch next","Mr Inbetween","Strong match for your taste."],["⭐ Taste profile","Gritty, grounded drama","Plus authentic reality TV."]]} />}
+        {view === "work" && <WorkHub />}
+        {view === "travel" && <TravelHub />}
+        {view === "family" && <FamilyHub />}
+        {view === "fitness" && <FitnessHub events={events} />}
+        {view === "money" && <MoneyHub />}
+        {view === "football" && <FootballHub />}
+        {view === "entertainment" && <EntertainmentHub />}
         {view === "admin" && <LifeAdmin />}
-        {view === "life" && <NotesPage />}
+        {view === "life" && <LifeHomeHub />}
       </main>
     </div>
   );
+}
+
+
+function HubHeader({ icon, title, subtitle, score, tone="green" }) {
+  return (
+    <section className="card hub-header">
+      <div>
+        <div className="eyebrow">{icon} {title}</div>
+        <div className="hero-title small-hero">{subtitle}</div>
+      </div>
+      <div className="hub-score">
+        <span>{score}%</span>
+        <RagBadge tone={tone}>{tone === "green" ? "Ready" : "Attention"}</RagBadge>
+      </div>
+    </section>
+  );
+}
+
+function WorkHub() {
+  return <div className="stack">
+    <HubHeader icon="💼" title="Work" subtitle="Your personal work companion, not a replacement for Copilot." score={96} />
+    <div className="grid three">
+      <section className="card"><div className="eyebrow">🤖 Primary AI</div><div className="hub-value">Microsoft Copilot</div><div className="small">Meetings, documents, email and internal content.</div></section>
+      <section className="card"><div className="eyebrow">🏙 Office routine</div><div className="hub-value">Wednesday</div><div className="small">GLH, London · commute-heavy day.</div></section>
+      <section className="card"><div className="eyebrow">📊 Focus</div><div className="hub-value">Insights & reporting</div><div className="small">KPI storytelling, p50–p99 and executive summaries.</div></section>
+    </div>
+    <section className="card"><h2>🎯 Current priorities</h2><div className="rich-list"><div>Monthly Change & Release reporting</div><div>Service delivery insights development</div><div>Keep work detail in Copilot; Mission Control tracks the personal headline.</div></div></section>
+  </div>
+}
+
+function TravelHub() {
+  return <div className="stack">
+    <HubHeader icon="✈️" title="Travel" subtitle="Trips, countdowns, ideas and practical preparation." score={98} />
+    <div className="grid three">
+      <section className="card"><div className="eyebrow">Next trip</div><div className="hub-value">La Marina</div><div className="small">5–11 September 2026</div></section>
+      <section className="card"><div className="eyebrow">Next major trip</div><div className="hub-value">Istanbul</div><div className="small">16 October 2026</div></section>
+      <section className="card"><div className="eyebrow">Preferred drive</div><div className="hub-value">≤ 90 minutes</div><div className="small">Only for something genuinely magnificent.</div></section>
+    </div>
+    <div className="grid two">
+      <section className="card"><h2>🗺 Standout Spain ideas</h2><div className="rich-list"><div>Tabarca Island</div><div>Calpe / Peñón views</div><div>El Pinet beach day</div></div></section>
+      <section className="card"><h2>🧳 Preparation</h2><div className="rich-list"><div>Travel insurance valid until 4 October</div><div>Build packing checklist nearer departure</div><div>Weather feed coming next</div></div></section>
+    </div>
+  </div>
+}
+
+function FamilyHub() {
+  return <div className="stack">
+    <HubHeader icon="👨‍👩‍👧‍👦" title="Family" subtitle="People, milestones, appointments and things worth remembering." score={92} tone="amber" />
+    <div className="grid two">
+      {profile.family.map((person) => (
+        <section className="card family-profile" key={person.name}>
+          <div className="profile-icon">{person.emoji}</div>
+          <div><div className="hub-value">{person.name}</div><div className="small">{person.relationship}</div>
+          <div className="profile-detail">Born {new Date(person.birthday+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}</div></div>
+        </section>
+      ))}
+    </div>
+    <section className="card"><h2>❤️ Current family focus</h2><div className="rich-list"><div>Emma’s menopause clinician follow-up</div><div>Sam’s birthday milestone</div><div>Luna’s walks, grooming and wellbeing</div></div></section>
+  </div>
+}
+
+function FitnessHub({ events }) {
+  const padel = events.filter((event) => event.category === "Fitness").slice(0, 6);
+  return <div className="stack">
+    <HubHeader icon="🎾" title="Fitness" subtitle="Routine, consistency and eventually Samsung Health." score={88} tone="amber" />
+    <div className="grid three">
+      <section className="card"><div className="eyebrow">Weekly target</div><div className="hub-value">2 padel sessions</div><div className="small">Monday & Thursday · 18:30</div></section>
+      <section className="card"><div className="eyebrow">Bookings</div><div className="hub-value">Matchi</div><div className="small">Court booking app</div></section>
+      <section className="card"><div className="eyebrow">Group comms</div><div className="hub-value">WhatsApp</div><div className="small">Players and attendance</div></section>
+    </div>
+    <section className="card"><h2>🎾 Upcoming padel</h2>{padel.map((event)=><div className="list-row" key={event.id}><span>{new Date(event.date+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"short"})}</span><strong>{event.time}</strong></div>)}</section>
+    <section className="card"><h2>⌚ Samsung Health roadmap</h2><div className="rich-list"><div>Steps and active minutes</div><div>Sleep and heart rate</div><div>Exercise sessions and recovery trends</div></div></section>
+  </div>
+}
+
+function MoneyHub() {
+  return <div className="stack">
+    <HubHeader icon="💷" title="Money" subtitle="Private by default, useful when you choose to reveal it." score={95} />
+    <div className="grid three">
+      <section className="card"><div className="eyebrow">🏦 Pension</div><div className="sensitive hub-value">£{profile.money.pension.toLocaleString("en-GB")}</div><div className="small">Long-term retirement focus</div></section>
+      <section className="card"><div className="eyebrow">🎟 Premium Bonds</div><div className="sensitive hub-value">£{profile.money.premiumBonds.toLocaleString("en-GB")}</div></section>
+      <section className="card"><div className="eyebrow">💰 Savings</div><div className="sensitive hub-value">£{profile.money.savings.toLocaleString("en-GB")}</div></section>
+    </div>
+    <section className="card"><h2>📈 Financial priorities</h2><div className="rich-list"><div>Model pension contributions at 8% and 10%</div><div>Track Sharesave maturity</div><div>Keep renewals in Life Admin</div></div></section>
+  </div>
+}
+
+function FootballHub() {
+  return <div className="stack">
+    <HubHeader icon="⚽" title="Football" subtitle="Spurs, Fantasy Football and credible intelligence." score={93} />
+    <div className="grid two">
+      <section className="card"><div className="eyebrow">⚽ Spurs</div><div className="hub-value">Transfer watch</div><div className="small">Credible moves, squad planning and fixtures.</div></section>
+      <section className="card"><div className="eyebrow">📊 Fantasy Football</div><div className="hub-value">Data-led edge</div><div className="small">Competitive from Gameweek 1.</div></section>
+    </div>
+    <section className="card"><h2>🔍 Current watchlist</h2><div className="rich-list"><div>Kinsky and pre-season form</div><div>New Spurs signings</div><div>FPL differentials and captaincy</div></div></section>
+  </div>
+}
+
+function EntertainmentHub() {
+  return <div className="stack">
+    <HubHeader icon="🎬" title="Entertainment" subtitle="Recommendations trained on your actual taste." score={97} />
+    <div className="grid three">
+      <section className="card"><div className="eyebrow">Tonight</div><div className="hub-value">Mr Inbetween</div><div className="small">Strong match for grounded crime drama.</div></section>
+      <section className="card"><div className="eyebrow">Top taste</div><div className="hub-value">Gritty drama</div><div className="small">Character-led, authentic, high stakes.</div></section>
+      <section className="card"><div className="eyebrow">Reality favourite</div><div className="hub-value">Below Deck</div><div className="small">Workplace dynamics and authentic characters.</div></section>
+    </div>
+    <section className="card"><h2>⭐ Your benchmark shows</h2><div className="rich-list"><div>Breaking Bad · 10/10</div><div>Top Boy · 10/10</div><div>Yellowstone · 10/10</div><div>Landman · 10/10</div></div></section>
+  </div>
+}
+
+function LifeHomeHub() {
+  const [note, setNote] = useState(localStorage.getItem("missionControlNote") || "");
+  const [saved, setSaved] = useState("");
+  return <div className="stack">
+    <HubHeader icon="🏡" title="Life & Home" subtitle="Projects, routines, wellbeing and personal notes." score={94} />
+    <div className="grid two">
+      <section className="card"><div className="eyebrow">🏠 Home</div><div className="hub-value">Modernisation</div><div className="small">Door, porch and future improvements.</div></section>
+      <section className="card"><div className="eyebrow">❤️ Wellbeing</div><div className="hub-value">Balance & consistency</div><div className="small">Health, family, work and enjoyable plans.</div></section>
+    </div>
+    <section className="card"><h2>📝 Personal note</h2><textarea value={note} onChange={(event)=>setNote(event.target.value)} placeholder="Add something Mission Control should remember on this device..." /><button className="primary-btn" onClick={()=>{localStorage.setItem("missionControlNote",note);setSaved("Saved on this device.");}}>Save note</button><div className="small">{saved}</div></section>
+  </div>
 }
 
 function SimpleGrid({ items }) {
